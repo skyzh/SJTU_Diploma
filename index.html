@@ -78,6 +78,7 @@
     clipboard.on('error', function (e) {
       console.error('Action:', e.action);
       console.error('Trigger:', e.trigger);
+      window.alert('复制失败')
     });
   </script>
   <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
