@@ -67,6 +67,10 @@ var app = new Vue({
                 'group_id': '724298631'
             },
             {
+                'name': '工程热力学',
+                'group_id': '581763583'
+            },
+            {
                 'name': 'C++',
                 'group_id': '670702558'
             },
