@@ -22,6 +22,9 @@ def parseNode(node):
     for key in attr.keys():
         o_O = node.get(key)
         info[key] = o_O.replace('\r', '').strip() if o_O else o_O
+        if key == 'xqxs':
+            info[key] = eval(info[key])
+    
     return info
 
 

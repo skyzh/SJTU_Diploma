@@ -11,6 +11,27 @@
         crossorigin="anonymous">
 
     <title>LessonArrangeForOthers</title>
+    <script>
+        function cmp(a, b) {
+            return a - b
+        }
+
+        function getLessonFilter(attr) {
+            return document.forms.LessonFilter[attr]
+        }
+
+        function check(attr) {
+            var selected = []
+            getLessonFilter(attr).forEach(function (item, index) {
+                // console.log(item.value, item.checked)
+                if (item.checked) {
+                    selected.push(item.value)
+                }
+            })
+            return selected
+        }
+    </script>
+
     <style>
         .header {
             text-align: center;
@@ -45,6 +66,7 @@
             text-align: center;
         }
     </style>
+
 </head>
 
 <body>
@@ -75,84 +97,227 @@
             </center>
         </div>
     </div>
+
     <div class="" id="app">
-        <div class="table-responsive-md">
-            <table class="table table-hover table-striped">
+        <div class="container">
+            <form name="LessonFilter">
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <select class="custom-select" id="keytype" name="keytype">
+                                    <option value="kcmc" selected>课程名称</option>
+                                    <option value="kcbm">课号</option>
+                                    <option value="xm">任课教师</option>
+                                </select>
+                            </div>
+                            <input type="text" id="keyword" name="keyword" class="form-control">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" id="keysearch" type="button">搜索</button>
+                            </div>
+                            <input type="text" style="display: none">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">年级</label>
+                    <div class="col-sm-10">
+                        <div class="form-check" v-for="nj in NJlst">
+                            <input class="form-check-input" name="nj" type="checkbox" :id="nj" :value="nj">
+                            <label class="form-check-label" :for="nj">{{ nj }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">开课院系</label>
+                    <div class="col-sm-10">
+                        <div class="form-check form-check-inline" v-for="yx in YXlst">
+                            <input class="form-check-input" name="yxmc" type="checkbox" :id="yx" :value="yx">
+                            <label class="form-check-label" :for="yx">{{ yx }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">行课安排</span>
+                        </div>
+                        <input type="text" class="form-control" name="sjms" id="sjmssearch" placeholder="keyword">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class=" table-responsive-md ">
+            <table class="table table-hover ">
                 <thead>
                     <tr>
-                        <th scope="col" :class="key" class="header" v-for="(value, key) in header" :key="key">{{ value }}</th>
+                        <th scope="col " :class="key " class="header " v-for="(value, key) in header " :key="key ">{{ value }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="lesson in list">
-                        <th class="kcbm" scope="row">{{ lesson.kcbm }}</th>
-                        <td class="yxmc">{{ lesson.yxmc }}</td>
-                        <td class="xm">{{ lesson.xm }}</td>
-                        <td class="kcmc">{{ lesson.kcmc }}</td>
-                        <td class="xsxf">{{ lesson.xqxs }} / {{ lesson.xqxf }}</td>
-                        <td class="sjms" v-html="b(lesson.sjms)"></td>
-                        <td class="bz">{{ lesson.bz }}</td>
-                        <td class="nj">{{ lesson.nj }}</td>
+                    <tr v-for="lesson in list ">
+                        <th class="kcbm " scope="row ">{{ lesson.kcbm }}</th>
+                        <td class="yxmc ">{{ lesson.yxmc }}</td>
+                        <td class="xm ">{{ lesson.xm }}</td>
+                        <td class="kcmc ">{{ lesson.kcmc }}</td>
+                        <td class="xsxf ">{{ lesson.xqxs }} / {{ lesson.xqxf }}</td>
+                        <td class="sjms " v-html="b(lesson.sjms) "></td>
+                        <td class="bz ">{{ lesson.bz }}</td>
+                        <td class="nj ">{{ lesson.nj }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <div class="row">
-                <div class="col"></div>
-                <div class="col">
-                    <img src="./img/logo.png" style="max-height: 30vw; max-width: 150px" alt="">
+    <div class="jumbotron jumbotron-fluid ">
+        <div class="container ">
+            <div class="row ">
+                <div class="col "></div>
+                <div class="col ">
+                    <img src="./img/logo.png " style="max-height: 30vw; max-width: 150px " alt=" ">
                 </div>
-                <div class="col">
-                    <img src="./img/qrcode.png" style="max-height: 30vw; max-width: 150px" alt="">
+                <div class="col ">
+                    <img src="./img/qrcode.png " style="max-height: 30vw; max-width: 150px " alt=" ">
                 </div>
-                <div class="col"></div>
+                <div class="col "></div>
             </div>
         </div>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdn.bootcss.com/vue/2.5.13/vue.min.js"></script>
-    <script src="./LessonArrangeForOthers.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.5.13/vue.min.js "></script>
+    <script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-beta.46/polyfill.js "></script>
+    <script src="./LessonArrangeForOthers.js "></script>
     <script>
         var app = new Vue({
-            el: "#app",
+            el: "#app ",
             data: {
                 header: {
-                    "kcbm": "课号",
-                    "yxmc": "开课院系",
-                    "xm": "教师姓名",
-                    // "zcmc": "职称",
-                    "kcmc": "课程",
-                    "xsxf": "学时/学分",
-                    // "xqxs": "学时",
-                    // "xqxf": "学分",
-                    "sjms": "课程安排",
-                    "bz": "备注",
-                    "nj": "年级",
-                    // "xn": "学年",
-                    // "xq": "学期",
-                    // "yqdrs": "选课人数",
-                    // "jsdm": "教室",
-                    // "jxlmc": "教学楼"
+                    "kcbm ": "课号 ",
+                    "yxmc ": "开课院系 ",
+                    "xm ": "教师姓名 ",
+                    // "zcmc ": "职称 ",
+                    "kcmc ": "课程 ",
+                    "xsxf ": "学时/学分 ",
+                    // "xqxs ": "学时 ",
+                    // "xqxf ": "学分 ",
+                    "sjms ": "课程安排 ",
+                    "bz ": "备注 ",
+                    "nj ": "年级 ",
+                    // "xn ": "学年 ",
+                    // "xq ": "学期 ",
+                    // "yqdrs ": "选课人数 ",
+                    // "jsdm ": "教室 ",
+                    // "jxlmc ": "教学楼 "
                 },
-                list: data
+                pool: data,
+                list: []
+            },
+            computed: {
+                YXlst() {
+                    return this.OptionGenerator(this.pool, 'yxmc')
+                },
+                NJlst() {
+                    return this.OptionGenerator(this.pool, 'nj').sort(cmp)
+                },
+                XSlst() {
+                    return this.OptionGenerator(this.pool, 'xqxs').sort(cmp)
+                },
+                XFlst() {
+                    return this.OptionGenerator(this.pool, 'xqxf').sort(cmp)
+                },
+                YXopt() {
+                    return this.OptionGenerator(this.list, 'yxmc')
+                },
+                NJopt() {
+                    return this.OptionGenerator(this.list, 'nj').sort(cmp)
+                },
+                XSopt() {
+                    return this.OptionGenerator(this.list, 'xqxs').sort(cmp)
+                },
+                XFopt() {
+                    return this.OptionGenerator(this.list, 'xqxf').sort(cmp)
+                }
             },
             methods: {
-                b: function (s) {
+                b(s) {
                     return '<p>' + s.split('\n').join('<br>') + '</p>'
+                },
+                OptionGenerator(data, attr) {
+                    pool = new Set()
+                    data.forEach(function (item, index) {
+                        pool.add(item[attr])
+                    })
+                    return [...pool]
+                },
+                search() {
+                    window.alert('input search')
                 }
+            },
+            created() {
+                // this.list = this.pool.filter(function (lesson) {
+                //     return lesson.nj == '0'
+                // })
             }
         })
     </script>
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js " integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN "
+        crossorigin="anonymous "></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js " integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q "
+        crossorigin="anonymous "></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js " integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl "
+        crossorigin="anonymous "></script>
+    <script>
+        $('document').ready(function () {
+            $("#keysearch ").click(function () {
+                var type = getLessonFilter('keytype').value
+                var word = getLessonFilter('keyword').value
+                if (word) {
+                    app.pool = data.filter(function (lesson) {
+                        return lesson[type].search(word) > -1
+                    })
+                } else {
+                    app.pool = data
+                }
+                app.list = app.pool
+            })
+
+            $(".form-check-input").change(function () {
+                var nj = check('nj')
+                var yx = check('yxmc')
+
+                // console.log(nj, yx)
+
+                app.list = app.pool.filter(function (lesson) {
+                    var cond1 = nj.find(function (x) {
+                        return x == lesson.nj
+                    })
+
+                    var cond2 = yx.find(function (x) {
+                        return x == lesson.yxmc
+                    })
+                    // console.log(cond1, cond2)
+                    return cond1 != undefined && cond2 != undefined
+                })
+            })
+
+            var history = ''
+
+            $("#sjmssearch").keyup(function () {
+                var sjmskeyword = getLessonFilter("sjms").value
+                // console.log(sjmskeyword.value)
+
+                if (sjmskeyword) {
+                    $(".form-check-input").change()
+                    app.list = app.list.filter(function (lesson) {
+                        // console.log(lesson.sjms.search(sjmskeyword))
+                        return lesson.sjms.search(sjmskeyword) > -1
+                    })
+                }
+            })
+        })
+    </script>
 </body>
 
 </html>
