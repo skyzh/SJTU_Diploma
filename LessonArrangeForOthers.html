@@ -282,7 +282,11 @@
                 var word = getLessonFilter('keyword').value
                 if (word) {
                     app.pool = data.filter(function (lesson) {
-                        return lesson[type].search(word) > -1
+                        if (lesson[type]) {
+                            return lesson[type].search(word) > -1
+                        } else {
+                            return false
+                        }
                     })
                 } else {
                     app.pool = data
