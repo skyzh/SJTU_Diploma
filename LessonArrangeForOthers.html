@@ -148,68 +148,69 @@
             </form>
         </div>
 
-        <div class=" table-responsive-md ">
-            <table class="table table-hover ">
+        <div class="table-responsive-md">
+            <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col " :class="key " class="header " v-for="(value, key) in header " :key="key ">{{ value }}</th>
+                        <th scope="col" :class="key" class="header" v-for="(value, key) in header" :key="key">{{ value }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="lesson in list ">
-                        <th class="kcbm " scope="row ">{{ lesson.kcbm }}</th>
-                        <td class="yxmc ">{{ lesson.yxmc }}</td>
-                        <td class="xm ">{{ lesson.xm }}</td>
-                        <td class="kcmc ">{{ lesson.kcmc }}</td>
-                        <td class="xsxf ">{{ lesson.xqxs }} / {{ lesson.xqxf }}</td>
-                        <td class="sjms " v-html="b(lesson.sjms) "></td>
-                        <td class="bz ">{{ lesson.bz }}</td>
-                        <td class="nj ">{{ lesson.nj }}</td>
+                    <tr v-for="lesson in list">
+                        <th class="kcbm" scope="row">{{ lesson.kcbm }}</th>
+                        <td class="yxmc">{{ lesson.yxmc }}</td>
+                        <td class="xm">{{ lesson.xm }}</td>
+                        <td class="kcmc">{{ lesson.kcmc }}</td>
+                        <td class="xsxf">{{ lesson.xqxs }} / {{ lesson.xqxf }}</td>
+                        <td class="sjms" v-html="b(lesson.sjms)"></td>
+                        <td class="bz">{{ lesson.bz }}</td>
+                        <td class="nj">{{ lesson.nj }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="jumbotron jumbotron-fluid ">
-        <div class="container ">
-            <div class="row ">
-                <div class="col "></div>
-                <div class="col ">
-                    <img src="./img/logo.png " style="max-height: 30vw; max-width: 150px " alt=" ">
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col">
+                    <img src="./img/logo.png" style="max-height: 30vw; max-width: 150px" alt="">
                 </div>
-                <div class="col ">
-                    <img src="./img/qrcode.png " style="max-height: 30vw; max-width: 150px " alt=" ">
+                <div class="col">
+                    <img src="./img/qrcode.png" style="max-height: 30vw; max-width: 150px" alt="">
                 </div>
-                <div class="col "></div>
+                <div class="col"></div>
             </div>
         </div>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdn.bootcss.com/vue/2.5.13/vue.min.js "></script>
-    <script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-beta.46/polyfill.js "></script>
-    <script src="./LessonArrangeForOthers.js "></script>
+    <script src="https://cdn.bootcss.com/vue/2.5.13/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-beta.46/polyfill.js"></script>
+    <script src="./LessonArrangeForOthers.js"></script>
     <script>
         var app = new Vue({
-            el: "#app ",
+            el: "#app",
             data: {
                 header: {
-                    "kcbm ": "课号 ",
-                    "yxmc ": "开课院系 ",
-                    "xm ": "教师姓名 ",
-                    // "zcmc ": "职称 ",
-                    "kcmc ": "课程 ",
-                    "xsxf ": "学时/学分 ",
-                    // "xqxs ": "学时 ",
-                    // "xqxf ": "学分 ",
-                    "sjms ": "课程安排 ",
-                    "bz ": "备注 ",
-                    "nj ": "年级 ",
-                    // "xn ": "学年 ",
-                    // "xq ": "学期 ",
-                    // "yqdrs ": "选课人数 ",
-                    // "jsdm ": "教室 ",
-                    // "jxlmc ": "教学楼 "
+                    "kcbm": "课号",
+                    "yxmc": "开课院系",
+                    "xm": "教师姓名",
+                    //"zcmc":"职称",
+                    "kcmc": "课程",
+                    "xsxf": "学时/学分",
+                    //"xqxs":"学时",
+                    //"xqxf":"学分",
+                    "sjms": "课程安排",
+                    "bz": "备注",
+                    "nj": "年级",
+                    //"xn":"学年",
+                    //"xq":"学期",
+                    //"yqdrs":"选课人数",
+                    //"jsdm":"教室",
+                    //"jxlmc":"教学楼"
                 },
                 pool: data,
                 list: []
@@ -262,15 +263,15 @@
             }
         })
     </script>
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js " integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN "
-        crossorigin="anonymous "></script>
-    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js " integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q "
-        crossorigin="anonymous "></script>
-    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js " integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl "
-        crossorigin="anonymous "></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <script>
         $('document').ready(function () {
-            $("#keysearch ").click(function () {
+            $("#keysearch").click(function () {
                 var type = getLessonFilter('keytype').value
                 var word = getLessonFilter('keyword').value
                 if (word) {
