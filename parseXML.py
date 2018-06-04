@@ -29,7 +29,7 @@ def parseNode(node):
 
 
 def main():
-    with open('Store.xml', encoding='utf-8') as f:
+    with open('LessonArrangeForOthers.xml', encoding='utf-8') as f:
         data = f.read()
 
     nodelst = BeautifulSoup(data, 'lxml').find_all('detail')
