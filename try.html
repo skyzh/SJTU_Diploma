@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>js滚动到指定位置导航栏固定顶部</title>
+    <style type="text/css">
+        body {
+            height: 2500px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .banner {
+            height: 250px;
+            width: 100%;
+            background: #e5e5e5;
+        }
+
+        .bignav {
+            width: 100%;
+            background: #000;
+        }
+
+        .nav {
+            background: #000;
+            width: 1200px;
+            margin: 0 auto;
+            height: 45px;
+        }
+
+        .nav a {
+            display: block;
+            width: 200px;
+            float: left;
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            line-height: 45px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="banner">
+
+    </div>
+    <div class="bignav" id="bignav">
+        <div class="nav">
+            <a href="#">首页</a>
+            <a href="#">首页</a>
+            <a href="#">首页</a>
+            <a href="#">首页</a>
+            <a href="#">首页</a>
+            <a href="#">首页</a>
+        </div>
+    </div>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+    <p>其他内容</p>
+
+    <script type="text/javascript">
+        window.onscroll = function () {
+            var topScroll = document.body.scrollTop;//滚动的距离,距离顶部的距离
+            var bignav = document.getElementById("bignav");//获取到导航栏id
+            if (topScroll > 250) {  //当滚动距离大于250px时执行下面的东西
+                bignav.style.position = 'fixed';
+                bignav.style.top = '0';
+                bignav.style.zIndex = '9999';
+            } else {//当滚动距离小于250的时候执行下面的内容，也就是让导航栏恢复原状
+                bignav.style.position = 'static';
+            }
+        }
+    </script>
+</body>
+
+</html>
