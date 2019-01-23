@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/4.2.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//cdn.bootcss.com/twitter-bootstrap/4.2.1/css/bootstrap.min.css">
 
   <script>
     var data = [
@@ -157,10 +157,7 @@
       </center>
     </div>
   </div>
-  <div class="container" id="app">
-    <script>
-      document.getElementById("app").style.visibility = "hidden";
-    </script> 
+  <div class="container" id="app" style="display: none">
     <div class="row">
       <div class="col-md-6 col-lg-4" v-for="{name, group_id, description} in list">
         <div class="card">
@@ -191,7 +188,7 @@
     </div>
   </div>
   
-  <script src="https://cdn.bootcss.com/vue/2.5.22/vue.min.js"></script>
+  <script src="//cdn.bootcss.com/vue/2.5.22/vue.min.js"></script>
   <script>
     var app = new Vue({
       el: "#app",
@@ -200,7 +197,7 @@
       }
     })
   </script>
-  <script src="https://cdn.bootcss.com/clipboard.js/2.0.4/clipboard.min.js"></script>
+  <script src="//cdn.bootcss.com/clipboard.js/2.0.4/clipboard.min.js"></script>
   <script>
     var clipboard = new ClipboardJS('.copy');
 
@@ -210,13 +207,13 @@
   </script>
   
   <!-- Bootstrap Dependency -->
-  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdn.bootcss.com/popper.js/1.14.6/umd/popper.min.js"></script>
-  <script src="https://cdn.bootcss.com/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/popper.js/1.14.6/umd/popper.min.js"></script>
+  <script src="//cdn.bootcss.com/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
   <!-- Bootstrap Dependency End-->
   
   <script>
-    document.getElementById("app").style.visibility = "visible";
+    $("#app").show();
   </script>  
 </body>
 
