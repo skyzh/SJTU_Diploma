@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="//cdn.bootcss.com/twitter-bootstrap/4.2.1/css/bootstrap.min.css">
+
+  <script>
+    var data = [
+      {
+        'name': '高等数学 / 数学分析',
+        'group_id': '570136376'
+      },
+      {
+        'name': '线性代数',
+        'group_id': '671348341'
+      },
+      {
+        'name': '概率统计',
+        'group_id': '499037750'
+      },
+      {
+        'name': '数理方法',
+        'group_id': '160156378'
+      },
+      {
+        'name': '大学物理',
+        'group_id': '124505509'
+      },
+      {
+        'name': '大学化学',
+        'group_id': '583286495'
+      },
+      {
+        'name': '电路理论|中文班',
+        'group_id': '251360355'
+      },
+      {
+        'name': '电路理论|英文班',
+        'group_id': '518421574'
+      },
+      {
+        'name': '数字/模拟电子技术 / 电工与电子技术 / 电工学',
+        'group_id': '132927097'
+      },
+      {
+        'name': '模拟电子技术|双语班',
+        'group_id': '723742472'
+      },
+      {
+        'name': '电子技术实验 / 数字系统设计 / Verilog / VHDL',
+        'group_id': '602744618'
+      },
+      {
+        'name': '信号与系统 / 数字信号处理',
+        'group_id': '482344546'
+      },
+      {
+        'name': '嵌入式系统原理与实验',
+        'group_id': '702243911'
+      },
+      {
+        'name': '电磁场',
+        'group_id': '723756925'
+      },
+      {
+        'name': 'C/C++/Python',
+        'group_id': '670702558'
+      },
+      {
+        'name': '离散数学 / 数据结构 / 算法',
+        'group_id': '568032383'
+      },
+      {
+        'name': '数据库',
+        'group_id': '724298631'
+      },
+      {
+        'name': '理论力学',
+        'group_id': '531501313'
+      },
+      {
+        'name': '工程热力学',
+        'group_id': '581763583'
+      },
+      {
+        'name': '设计与制造 / 工程图学 / 船舶海洋/土木工程制图',
+        'group_id': '159098621'
+      },
+      {
+        'name': '马克思主义原理',
+        'group_id': '807919675'
+      },
+      {
+        'name': '毛泽东思想和中国特色社会主义理论体系概论',
+        'group_id': '807585487'
+      },
+      {
+        'name': '法语',
+        'group_id': '263449613'
+      },
+      {
+        'name': '交大选课交流群',
+        'group_id': '687079642'
+      },
+      {
+        'name': '交大导师交流群',
+        'group_id': '782973293'
+      }
+    ]
+  </script>
+
+  <title>学科交流群列表</title>
+  <style>
+    .card {
+      margin: 1em;
+    }
+
+    .copy {
+      float: right;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="navbar-brand">学科交流群列表</div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">学科交流群列表</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../lessons/index.html">学期开课表</a>
+        </li>
+		<li class="nav-item">
+          <a class="nav-link" href="../epqg/index.html">F18工试班群</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <center>
+        <h1>学科交流群列表</h1>
+      </center>
+    </div>
+  </div>
+  <div class="container" id="app" style="display: none">
+    <div class="row">
+      <div class="col-md-6 col-lg-4" v-for="{name, group_id, description} in list">
+        <div class="card">
+          <!-- <img class="card-img-top" :src="`./img/${group_id}.jpg`" alt="Card image cap"> -->
+		  <!-- 加群二维码可真难啊 -->
+          <div class="card-body">
+            <h5 class="card-title">{{ name }}</h5>
+            <p class="lead">{{ group_id }}</p>
+            <p class="card-text">{{ description }}</p>
+            <button class="btn btn-secondary btn-sm copy" :data-clipboard-text="group_id">复制群号码</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <div class="row">
+        <div class="col"></div>
+        <div class="col">
+          <img src="../img/logo.png" style="max-height: 30vw; max-width: 150px" alt="">
+        </div>
+        <div class="col">
+          <img src="../img/qrcode.png" style="max-height: 30vw; max-width: 150px" alt="">
+        </div>
+        <div class="col"></div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="//cdn.bootcss.com/vue/2.5.22/vue.min.js"></script>
+  <script>
+    var app = new Vue({
+      el: "#app",
+      data: {
+        list: data
+      }
+    })
+  </script>
+  <script src="//cdn.bootcss.com/clipboard.js/2.0.4/clipboard.min.js"></script>
+  <script>
+    var clipboard = new ClipboardJS('.copy');
+
+    clipboard.on('error', function (e) {
+      window.alert('复制失败，请手动复制。')
+    });
+  </script>
+  
+  <!-- Bootstrap Dependency -->
+  <script src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/popper.js/1.14.6/umd/popper.min.js"></script>
+  <script src="//cdn.bootcss.com/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+  <!-- Bootstrap Dependency End-->
+  
+  <script>
+    $("#app").show();
+  </script>  
+</body>
+
+</html>
