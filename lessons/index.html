@@ -54,6 +54,12 @@
       padding: 0;
     }
 
+    /************以下为表单样式************/
+    #keyword-type {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
     /************以下为表格样式************/
     .tableheader {
       text-align: center;
@@ -125,22 +131,19 @@
   <div class="container-fluid" id="app" style="display: none">
     <div class="container">
       <form name="LessonFilter">
-		2018-2019学年秋季学期
-        <div class="form-group row">
-          <div class="col-sm-10">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <select class="custom-select" id="keytype" name="keytype">
-                  <option value="kcmc" selected>课程名称</option>
-                  <option value="kcbm">课号</option>
-                  <option value="xm">任课教师</option>
-                </select>
-              </div>
-              <input type="text" id="keyword" name="keyword" class="form-control">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" id="keysearch" type="button">搜索</button>
-              </div>
-              <input type="text" style="display: none">
+        <h4>当前学期：2018-2019学年秋季学期</h4>
+        <div class="form-group">
+          <div id="searchBox" class="input-group mb-3">
+            <div class="input-group-prepend">
+              <select class="custom-select" id="keyword-type" name="keytype">
+                <option value="kcmc" selected>课程名称</option>
+                <option value="kcbm">课号</option>
+                <option value="xm">任课教师</option>
+              </select>
+            </div>
+            <input type="text" id="keyword" name="keyword" class="form-control">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" id="keysearch" type="button">搜索</button>
             </div>
           </div>
         </div>
