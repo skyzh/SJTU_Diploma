@@ -61,7 +61,7 @@
     }
 
     /************以下为表格样式************/
-    .tableheader {
+    .tablefieldDict {
       text-align: center;
     }
 
@@ -131,14 +131,14 @@
   <div class="container-fluid" id="app" style="display: none">
     <div class="container">
       <form name="LessonFilter">
-        <h4>当前学期：2018-2019学年秋季学期</h4>
+        <h4>当前学期：2019-2020学年春季学期</h4>
         <div class="form-group">
           <div id="searchBox" class="input-group mb-3">
             <div class="input-group-prepend">
               <select class="custom-select" id="keyword-type" name="keytype">
                 <option value="kcmc" selected>课程名称</option>
-                <option value="kcbm">课号</option>
-                <option value="xm">任课教师</option>
+                <option value="kch">课号</option>
+                <option value="jxzc">任课教师</option>
               </select>
             </div>
             <input type="text" id="keyword" name="keyword" class="form-control">
@@ -150,27 +150,27 @@
         <div class="form-group row">
           <label class="col-sm-2 col-form-label">年级</label>
           <div class="col-sm-10">
-            <div class="form-check" v-for="nj in NJlst">
+            <span class="form-check form-check-inline" v-for="nj in NJlst">
               <input class="form-check-input" name="nj" type="checkbox" :id="nj" :value="nj">
               <label class="form-check-label" :for="nj">{{ nj }}</label>
-            </div>
+            </span>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 col-form-label">开课院系</label>
           <div class="col-sm-10">
             <div class="form-check form-check-inline" v-for="yx in YXlst">
-              <input class="form-check-input" name="yxmc" type="checkbox" :id="yx" :value="yx">
+              <input class="form-check-input" name="kkxy" type="checkbox" :id="yx" :value="yx">
               <label class="form-check-label" :for="yx">{{ yx }}</label>
             </div>
           </div>
         </div>
-        <div class="form-group row">
+        <div class="form-group row" style="display: none;">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text">行课安排</span>
             </div>
-            <input type="text" class="form-control" name="sjms" id="sjmssearch" placeholder="keyword">
+            <input type="text" class="form-control" name="sksj" id="sjmssearch" placeholder="keyword">
           </div>
         </div>
       </form>
@@ -180,18 +180,18 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th scope="col" :class="key" class="tableheader" v-for="(value, key) in header" :key="key">{{ value }}</th>
+            <th scope="col" class="table-header" class="tablefieldDict" v-for="header in tableHeader">{{ header }}</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="lesson in list">
-            <th class="kcbm" scope="row">{{ lesson.kcbm }}</th>
-            <td class="yxmc">{{ lesson.yxmc }}</td>
-            <td class="xm">{{ lesson.xm }}</td>
+            <th class="kcbm" scope="row">{{ lesson.kch }}</th>
+            <td class="yxmc">{{ lesson.kkxy }}</td>
+            <td class="xm">{{ lesson.jszc }}</td>
             <td class="kcmc">{{ lesson.kcmc }}</td>
-            <td class="xsxf">{{ lesson.xqxs }} / {{ lesson.xqxf }}</td>
-            <td class="sjms" v-html="b(lesson.sjms)"></td>
-            <td class="bz">{{ lesson.bz }}</td>
+            <td class="xsxf">{{ lesson.rwzxs }} / {{ lesson.xf }}</td>
+            <td class="sjms" v-html="b(lesson.sksj)"></td>
+            <td class="bz">{{ lesson.xkbz }}</td>
             <td class="nj">{{ lesson.nj }}</td>
           </tr>
         </tbody>
@@ -244,75 +244,105 @@
 
   <script src="https://cdn.bootcss.com/vue/2.5.22/vue.min.js"></script>
   <script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-beta.46/polyfill.js"></script>
-  <script src="./LessonArrangeForOthers.js"></script>
   <script>
     var app = new Vue({
       el: "#app",
       data: {
-        header: {
-          "kcbm": "课号",
-          "yxmc": "开课院系",
-          "xm": "教师姓名",
-          //"zcmc":"职称",
-          "kcmc": "课程",
-          "xsxf": "学时/学分",
-          //"xqxs":"学时",
-          //"xqxf":"学分",
-          "sjms": "课程安排",
-          "bz": "备注",
+        fieldDict: {
+          "xn": "学年",
+          "xq": "学期",
+          "xqj": "星期几",
+          "skjc": "上课节次",
+          "qsjsz": "起始周",
+          "kch": "课程号",
+          "cdbh": "场地编号",
+          "kcmc": "课程名称",
+          "cdmc": "场地名称",
+          "cdlbmc": "场地类别名称",
+          "cdqsjsz": "场地上课起始周",
+          "cdskjc": "场地上课节次",
+          "xqmc": "校区",
+          "jxbrs": "教学班人数",
+          "jxbzc": "教学班组成",
+          "jxbmc": "选课课号",
+          "xf": "学分",
+          "rwzxs": "总学时",
+          "kkxy": "开课学院",
+          "xkrs": "选课人数",
+          "zhxs": "周学时",
+          "sksj": "上课时间",
+          "jxdd": "上课地点",
+          "xkbz": "选课备注",
+          "kcxzmc": "课程性质",
+          "kklx": "开课类型",
           "nj": "年级",
-          //"xn":"学年",
-          //"xq":"学期",
-          //"yqdrs":"选课人数",
-          //"jsdm":"教室",
-          //"jxlmc":"教学楼"
+          "zjs": "上课教师",
+          "zws": "座位数",
+          "jxlmc": "教学楼",
+          "jszc": "教师组成",
         },
-        pool: data,
+        tableHeader:[
+          "课号",
+          "开课院系",
+          "教师姓名",
+          "课程",
+          "学时/学分",
+          "课程安排",
+          "备注",
+          "年级"
+        ],
+        raw_data:[],
+        filtered_data: [],
         list: []
       },
       computed: {
         YXlst() {
-          return this.OptionGenerator(this.pool, 'yxmc')
+          return this.OptionGenerator(this.raw_data, 'kkxy')
         },
         NJlst() {
-          return this.OptionGenerator(this.pool, 'nj').sort(cmp)
+          return this.OptionGenerator(this.raw_data, 'nj').sort(cmp)
         },
         XSlst() {
-          return this.OptionGenerator(this.pool, 'xqxs').sort(cmp)
+          return this.OptionGenerator(this.raw_data, 'rwzxs').sort(cmp)
         },
         XFlst() {
-          return this.OptionGenerator(this.pool, 'xqxf').sort(cmp)
+          return this.OptionGenerator(this.raw_data, 'xf').sort(cmp)
         },
         YXopt() {
-          return this.OptionGenerator(this.list, 'yxmc')
+          return this.OptionGenerator(this.list, 'kkxy')
         },
         NJopt() {
           return this.OptionGenerator(this.list, 'nj').sort(cmp)
         },
         XSopt() {
-          return this.OptionGenerator(this.list, 'xqxs').sort(cmp)
+          return this.OptionGenerator(this.list, 'rwzxs').sort(cmp)
         },
         XFopt() {
-          return this.OptionGenerator(this.list, 'xqxf').sort(cmp)
+          return this.OptionGenerator(this.list, 'xf').sort(cmp)
         }
       },
       methods: {
         b(s) {
-          return '<p>' + s.split('\n').join('<br>') + '</p>'
+          return s.split(';').join('<br>')
         },
         OptionGenerator(data, attr) {
-          pool = new Set()
+          filtered_data = new Set()
           data.forEach(function (item, index) {
-            pool.add(item[attr])
+            filtered_data.add(item[attr])
           })
-          return [...pool]
+          return [...filtered_data]
         },
         search() {
           window.alert('input search')
         }
       },
       created() {
-        // this.list = this.pool.filter(function (lesson) {
+        fetch('lessionData_2019-2020_2.json')
+        .then((res)=>res.json())
+        .then((data)=>{
+          this.raw_data=data;
+        })
+        // this.list = this.filtered_data.filter(function (lesson) {
         //   return lesson.nj == '0'
         // })
       }
@@ -330,8 +360,9 @@
       $("#keysearch").click(function () {
         var type = getLessonFilter('keytype').value
         var word = getLessonFilter('keyword').value
+        console.log(type,word)
         if (word) {
-          app.pool = data.filter(function (lesson) {
+          app.filtered_data = app.raw_data.filter(function (lesson) {
             if (lesson[type]) {
               return lesson[type].search(word) > -1
             } else {
@@ -339,18 +370,16 @@
             }
           })
         } else {
-          app.pool = data
+          app.filtered_data = app.raw_data
         }
-        app.list = app.pool
+        app.list = app.filtered_data
       })
 
       $(".form-check-input").change(function () {
         var nj = check('nj')
-        var yx = check('yxmc')
+        var yx = check('kkxy')
 
-        // console.log(nj, yx)
-
-        app.list = app.pool.filter(function (lesson) {
+        app.list = app.filtered_data.filter(function (lesson) {
           var cond1 = nj.find(function (x) {
             return x == lesson.nj
           })
