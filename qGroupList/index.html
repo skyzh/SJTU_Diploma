@@ -9,162 +9,64 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="//cdn.bootcss.com/twitter-bootstrap/4.2.1/css/bootstrap.min.css">
 
-  <script>
-    var data = [
-	        {
-    'name': '2018级数学与应用数学辅修群',
-        'group_id': '976903331'
-	    },
-      {
-        'name': '高等数学 / 数学分析',
-        'group_id': '570136376'
-      },
-      {
-        'name': '线性代数',
-        'group_id': '671348341'
-      },
-      {
-        'name': '概率统计',
-        'group_id': '499037750'
-      },
-      {
-        'name': '数学物理方法',
-        'group_id': '160156378'
-      },
-      {
-        'name': '大学物理',
-        'group_id': '124505509'
-      },
-      {
-        'name': '大学化学',
-        'group_id': '583286495'
-      },
-      {
-        'name': '电路理论|中文班',
-        'group_id': '251360355'
-      },
-      {
-        'name': '电路理论|英文班',
-        'group_id': '518421574'
-      },
-      {
-        'name': '数字/模拟电子技术 / 电工与电子技术 / 电工学',
-        'group_id': '132927097'
-      },
-      {
-        'name': '电子技术实验 / 数字系统设计 / Verilog / VHDL',
-        'group_id': '602744618'
-      },
-      {
-        'name': '信号与系统 / 数字信号处理',
-        'group_id': '482344546'
-      },
-      {
-        'name': '嵌入式系统原理与实验',
-        'group_id': '702243911'
-      },
-      {
-        'name': '电磁场',
-        'group_id': '723756925'
-      },
-      {
-        'name': 'C/C++/Python',
-        'group_id': '670702558'
-      },
-      {
-        'name': '离散数学 / 数据结构 / 算法',
-        'group_id': '568032383'
-      },
-      {
-        'name': '数据库',
-        'group_id': '724298631'
-      },
-      {
-        'name': '理论力学',
-        'group_id': '584791938'
-      },
-      {
-        'name': '工程热力学',
-        'group_id': '787184953'
-      },
-      {
-        'name': '设计与制造 / 工程图学 / 船舶海洋 / 土木工程制图',
-        'group_id': '159098621'
-      },
-      {
-        'name': '马克思主义原理',
-        'group_id': '807919675'
-      },
-      {
-        'name': '毛泽东思想和中国特色社会主义理论体系概论',
-        'group_id': '807585487'
-      },
-      {
-        'name': '法语',
-        'group_id': '263449613'
-      },
-      {
-        'name': '体育理论考试群',
-        'group_id': '739447095'
-      },
-      {
-        'name': '交大选课交流群',
-        'group_id': '687079642'
-      },
-      {
-        'name': '交大导师交流群',
-        'group_id': '782973293'
-      },
-      {
-        'name': '交大考研学习交流群',
-        'group_id': '698915837'
-      }
-    ]
-  </script>
-
   <title>学科交流群列表</title>
   <style>
+    .header {
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+    }
+
     .card {
       margin: 1em;
     }
 
-    .copy {
-      float: right;
+    .card-title {
+      height: 1.6em;
+    }
+
+    .navbar-toggler:focus {
+      outline: none;
+    }
+
+    .bg-lightgrey {
+      background-color: #e9ecef;
+    }
+
+    .blogroll {
+      height: 25px;
+    }
+
+    #blogrolls {
+      list-style-type: none;
+      padding: 0;
     }
   </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-dark bg-dark">
-    <div class="navbar-brand">学科交流群列表</div>
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-      aria-label="Toggle navigation">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">交流群列表</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
       <span class="navbar-toggler-icon"></span>
     </button>
-
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">学科交流群列表</a>
+          <a class="nav-link" href="#">交流群列表</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="../lessons/index.html">学期开课表</a>
         </li>
-		<li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" href="../epqg/index.html">F18工试班群</a>
         </li>
       </ul>
     </div>
   </nav>
 
-  <div class="jumbotron jumbotron-fluid">
-    <div class="container">
-      <center>
-        <h1>学科交流群列表</h1>
-      </center>
-    </div>
-  </div>
+  <header class="header bg-lightgrey">
+    <h1 class="text-center">学科交流群列表</h1>
+  </header>
   <div class="container" id="app" style="display: none">
     <div class="row">
       <div class="col-md-12">
@@ -176,7 +78,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6 col-lg-4" v-for="{name, group_id, description} in list">
+      <div class="col-md-6 col-lg-4 col-12" v-for="{name, group_id, description} in list">
         <div class="card">
           <!-- <img class="card-img-top" :src="`./img/${group_id}.jpg`" alt="Card image cap"> -->
 		  <!-- 加群二维码可真难啊 -->
@@ -184,27 +86,53 @@
             <h5 class="card-title">{{ name }}</h5>
             <p class="lead">{{ group_id }}</p>
             <p class="card-text">{{ description }}</p>
-            <button class="btn btn-secondary btn-sm copy" :data-clipboard-text="group_id">复制群号码</button>
+            <button class="btn btn-secondary btn-clipboard btn-sm float-right" title="点我复制群号码" data-toggle="tooltip" data-trigger="hover" v-bind:data-clipboard-text="group_id">复制群号码</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="jumbotron jumbotron-fluid">
-    <div class="container">
+
+  <footer class="footer bg-lightgrey py-4">
+    <div class="container-fluid">
       <div class="row">
-        <div class="col"></div>
-        <div class="col">
-          <img src="../img/logo.png" style="max-height: 30vw; max-width: 150px" alt="">
+        <div id="footer-icons" class="col-md-6 offset-md-3 offset-0">
+          <div class="row">
+            <div class="col text-right">
+              <img src="../img/logo.png" style="max-height: 30vw; max-width: 150px" alt="">
+            </div>
+            <div class="col text-left">
+              <img src="../img/qrcode.png" style="max-height: 30vw; max-width: 150px" alt="">
+            </div>
+          </div>
         </div>
-        <div class="col">
-          <img src="../img/qrcode.png" style="max-height: 30vw; max-width: 150px" alt="">
-        </div>
-        <div class="col"></div>
+        <ul id="blogrolls" class="col d-md-block d-none">
+          <li class="blogroll">
+            <a href="https://i.sjtu.edu.cn/" title="上海交通大学教学信息服务网">
+              <img height="24" class="float-left" viewBox="0 0 16 16" width="24" src="../img/logo.png">
+              iSJTU
+            </a>
+          </li>
+          <li class="blogroll">
+            <a href="https://github.com/skyzh/SJTU_Diploma"  title="SJTU_Diploma">
+              <svg height="24" class="float-left" viewBox="0 0 16 16" version="1.1" width="24"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+              Github Repository
+            </a>
+          </li>
+          <li class="blogroll">
+            <a href="https://github.com/skyzh/SJTU_Diploma/issues/new" title="Github issue">
+              <svg height="24" class="float-left" viewBox="0 0 16 16" version="1.1" width="24"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+              New issue
+            </a>
+          </li>
+        </ul>
+
       </div>
     </div>
-  </div>
-  
+  </footer>
+
+
+  <script src="qGroupData.js"></script>
   <script src="//cdn.bootcss.com/vue/2.5.22/vue.min.js"></script>
   <script>
     var app = new Vue({
@@ -214,24 +142,32 @@
       }
     })
   </script>
-  <script src="//cdn.bootcss.com/clipboard.js/2.0.4/clipboard.min.js"></script>
-  <script>
-    var clipboard = new ClipboardJS('.copy');
 
-    clipboard.on('error', function (e) {
-      window.alert('复制失败，请手动复制。')
-    });
-  </script>
-  
   <!-- Bootstrap Dependency -->
   <script src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
   <script src="//cdn.bootcss.com/popper.js/1.14.6/umd/popper.min.js"></script>
   <script src="//cdn.bootcss.com/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
   <!-- Bootstrap Dependency End-->
-  
+
+  <script src="//cdn.bootcss.com/clipboard.js/2.0.4/clipboard.min.js"></script>
   <script>
+    var clipboard = new ClipboardJS('.btn-clipboard');
+
+    clipboard.on('error', function (e) {
+      var original_title=$(e.trigger).attr("data-original-title")
+      $(e.trigger).attr("data-original-title","复制失败，请手动复制").tooltip("show")
+      $(e.trigger).attr("data-original-title",original_title)
+    });
+
+    clipboard.on('success', function(e) {
+      var original_title=$(e.trigger).attr("data-original-title")
+      $(e.trigger).attr("data-original-title","复制成功").tooltip("show")
+      $(e.trigger).attr("data-original-title",original_title)
+    });
+    $('[data-toggle="tooltip"]').tooltip()
+
     $("#app").show();
-  </script>  
+  </script>
 </body>
 
 </html>

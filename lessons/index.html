@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/4.2.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//cdn.bootcss.com/twitter-bootstrap/4.2.1/css/bootstrap.min.css">
 
   <title>学期开课表</title>
   <script>
@@ -33,6 +33,35 @@
 
   <style>
     .header {
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+    }
+
+    .navbar-toggler:focus {
+      outline: none;
+    }
+
+    .bg-lightgrey {
+      background-color: #e9ecef;
+    }
+
+    .blogroll {
+      height: 25px;
+    }
+
+    #blogrolls {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    /************以下为表单样式************/
+    #keyword-type {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    /************以下为表格样式************/
+    .tablefieldDict {
       text-align: center;
     }
 
@@ -75,86 +104,73 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-dark bg-dark">
-    <div class="navbar-brand">学期开课表</div>
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-      aria-label="Toggle navigation">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">学期开课表</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
       <span class="navbar-toggler-icon"></span>
     </button>
-
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="../qGroupList/index.html">学科交流群列表</a>
+          <a class="nav-link" href="../qGroupList/index.html">交流群列表</a>
         </li>
         <li class="nav-item active">
           <a class="nav-link" href="#">学期开课表</a>
         </li>
-		<li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" href="../epqg/index.html">F18工试班群</a>
         </li>
       </ul>
     </div>
   </nav>
 
-  <div class="jumbotron jumbotron-fluid">
-    <div class="container">
-      <center>
-        <h1>学期开课表</h1>
-      </center>
-    </div>
-  </div>
+  <header class="header bg-lightgrey">
+    <h1 class="text-center">学期开课表</h1>
+  </header>
 
-  <div class="" id="app">
-    <script>
-      document.getElementById("app").style.visibility = "hidden";
-    </script>
+  <div class="container-fluid" id="app" style="display: none">
     <div class="container">
       <form name="LessonFilter">
-		2018-2019学年秋季学期
-        <div class="form-group row">
-          <div class="col-sm-10">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <select class="custom-select" id="keytype" name="keytype">
-                  <option value="kcmc" selected>课程名称</option>
-                  <option value="kcbm">课号</option>
-                  <option value="xm">任课教师</option>
-                </select>
-              </div>
-              <input type="text" id="keyword" name="keyword" class="form-control">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" id="keysearch" type="button">搜索</button>
-              </div>
-              <input type="text" style="display: none">
+        <h4>当前学期：2019-2020学年春季学期</h4>
+        <div class="form-group">
+          <div id="searchBox" class="input-group mb-3">
+            <div class="input-group-prepend">
+              <select class="custom-select" id="keyword-type" name="keytype">
+                <option value="kcmc" selected>课程名称</option>
+                <option value="kch">课号</option>
+                <option value="jxzc">任课教师</option>
+              </select>
+            </div>
+            <input type="text" id="keyword" name="keyword" class="form-control">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" id="keysearch" type="button">搜索</button>
             </div>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 col-form-label">年级</label>
           <div class="col-sm-10">
-            <div class="form-check" v-for="nj in NJlst">
+            <span class="form-check form-check-inline" v-for="nj in NJlst">
               <input class="form-check-input" name="nj" type="checkbox" :id="nj" :value="nj">
               <label class="form-check-label" :for="nj">{{ nj }}</label>
-            </div>
+            </span>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 col-form-label">开课院系</label>
           <div class="col-sm-10">
             <div class="form-check form-check-inline" v-for="yx in YXlst">
-              <input class="form-check-input" name="yxmc" type="checkbox" :id="yx" :value="yx">
+              <input class="form-check-input" name="kkxy" type="checkbox" :id="yx" :value="yx">
               <label class="form-check-label" :for="yx">{{ yx }}</label>
             </div>
           </div>
         </div>
-        <div class="form-group row">
+        <div class="form-group row" style="display: none;">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text">行课安排</span>
             </div>
-            <input type="text" class="form-control" name="sjms" id="sjmssearch" placeholder="keyword">
+            <input type="text" class="form-control" name="sksj" id="sjmssearch" placeholder="keyword">
           </div>
         </div>
       </form>
@@ -164,18 +180,18 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th scope="col" :class="key" class="header" v-for="(value, key) in header" :key="key">{{ value }}</th>
+            <th scope="col" class="table-header" class="tablefieldDict" v-for="header in tableHeader">{{ header }}</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="lesson in list">
-            <th class="kcbm" scope="row">{{ lesson.kcbm }}</th>
-            <td class="yxmc">{{ lesson.yxmc }}</td>
-            <td class="xm">{{ lesson.xm }}</td>
+            <th class="kcbm" scope="row">{{ lesson.kch }}</th>
+            <td class="yxmc">{{ lesson.kkxy }}</td>
+            <td class="xm">{{ lesson.jszc }}</td>
             <td class="kcmc">{{ lesson.kcmc }}</td>
-            <td class="xsxf">{{ lesson.xqxs }} / {{ lesson.xqxf }}</td>
-            <td class="sjms" v-html="b(lesson.sjms)"></td>
-            <td class="bz">{{ lesson.bz }}</td>
+            <td class="xsxf">{{ lesson.rwzxs }} / {{ lesson.xf }}</td>
+            <td class="sjms" v-html="b(lesson.sksj)"></td>
+            <td class="bz">{{ lesson.xkbz }}</td>
             <td class="nj">{{ lesson.nj }}</td>
           </tr>
         </tbody>
@@ -183,91 +199,144 @@
     </div>
   </div>
 
-  <div class="jumbotron jumbotron-fluid">
-    <div class="container">
+  <footer class="footer bg-lightgrey py-4">
+    <div class="container-fluid">
       <div class="row">
-        <div class="col"></div>
-        <div class="col">
-          <img src="./img/logo.png" style="max-height: 30vw; max-width: 150px" alt="">
+        <div id="footer-icons" class="col-md-6 offset-md-3 offset-0">
+          <div class="row">
+            <div class="col text-right">
+              <img src="../img/logo.png" style="max-height: 30vw; max-width: 150px" alt="">
+            </div>
+            <div class="col text-left">
+              <img src="../img/qrcode.png" style="max-height: 30vw; max-width: 150px" alt="">
+            </div>
+          </div>
         </div>
-        <div class="col">
-          <img src="./img/qrcode.png" style="max-height: 30vw; max-width: 150px" alt="">
-        </div>
-        <div class="col"></div>
+        <ul id="blogrolls" class="col d-md-block d-none">
+          <li class="blogroll">
+            <a href="https://i.sjtu.edu.cn/" title="上海交通大学教学信息服务网">
+              <img height="24" class="float-left" viewBox="0 0 16 16" width="24" src="../img/logo.png">
+              iSJTU
+            </a>
+          </li>
+          <li class="blogroll">
+            <a href="https://github.com/skyzh/SJTU_Diploma"  title="SJTU_Diploma">
+              <svg height="24" class="float-left" viewBox="0 0 16 16" version="1.1" width="24"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+              Github Repository
+            </a>
+          </li>
+          <li class="blogroll">
+            <a href="https://github.com/skyzh/SJTU_Diploma/issues/new" title="Github issue">
+              <svg height="24" class="float-left" viewBox="0 0 16 16" version="1.1" width="24"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+              New issue
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
-  </div>
+  </footer>
+
   <script src="https://cdn.bootcss.com/vue/2.5.22/vue.min.js"></script>
   <script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-beta.46/polyfill.js"></script>
-  <script src="./LessonArrangeForOthers.js"></script>
   <script>
     var app = new Vue({
       el: "#app",
       data: {
-        header: {
-          "kcbm": "课号",
-          "yxmc": "开课院系",
-          "xm": "教师姓名",
-          //"zcmc":"职称",
-          "kcmc": "课程",
-          "xsxf": "学时/学分",
-          //"xqxs":"学时",
-          //"xqxf":"学分",
-          "sjms": "课程安排",
-          "bz": "备注",
+        fieldDict: {
+          "xn": "学年",
+          "xq": "学期",
+          "xqj": "星期几",
+          "skjc": "上课节次",
+          "qsjsz": "起始周",
+          "kch": "课程号",
+          "cdbh": "场地编号",
+          "kcmc": "课程名称",
+          "cdmc": "场地名称",
+          "cdlbmc": "场地类别名称",
+          "cdqsjsz": "场地上课起始周",
+          "cdskjc": "场地上课节次",
+          "xqmc": "校区",
+          "jxbrs": "教学班人数",
+          "jxbzc": "教学班组成",
+          "jxbmc": "选课课号",
+          "xf": "学分",
+          "rwzxs": "总学时",
+          "kkxy": "开课学院",
+          "xkrs": "选课人数",
+          "zhxs": "周学时",
+          "sksj": "上课时间",
+          "jxdd": "上课地点",
+          "xkbz": "选课备注",
+          "kcxzmc": "课程性质",
+          "kklx": "开课类型",
           "nj": "年级",
-          //"xn":"学年",
-          //"xq":"学期",
-          //"yqdrs":"选课人数",
-          //"jsdm":"教室",
-          //"jxlmc":"教学楼"
+          "zjs": "上课教师",
+          "zws": "座位数",
+          "jxlmc": "教学楼",
+          "jszc": "教师组成",
         },
-        pool: data,
+        tableHeader:[
+          "课号",
+          "开课院系",
+          "教师姓名",
+          "课程",
+          "学时/学分",
+          "课程安排",
+          "备注",
+          "年级"
+        ],
+        raw_data:[],
+        filtered_data: [],
         list: []
       },
       computed: {
         YXlst() {
-          return this.OptionGenerator(this.pool, 'yxmc')
+          return this.OptionGenerator(this.raw_data, 'kkxy')
         },
         NJlst() {
-          return this.OptionGenerator(this.pool, 'nj').sort(cmp)
+          return this.OptionGenerator(this.raw_data, 'nj').sort(cmp)
         },
         XSlst() {
-          return this.OptionGenerator(this.pool, 'xqxs').sort(cmp)
+          return this.OptionGenerator(this.raw_data, 'rwzxs').sort(cmp)
         },
         XFlst() {
-          return this.OptionGenerator(this.pool, 'xqxf').sort(cmp)
+          return this.OptionGenerator(this.raw_data, 'xf').sort(cmp)
         },
         YXopt() {
-          return this.OptionGenerator(this.list, 'yxmc')
+          return this.OptionGenerator(this.list, 'kkxy')
         },
         NJopt() {
           return this.OptionGenerator(this.list, 'nj').sort(cmp)
         },
         XSopt() {
-          return this.OptionGenerator(this.list, 'xqxs').sort(cmp)
+          return this.OptionGenerator(this.list, 'rwzxs').sort(cmp)
         },
         XFopt() {
-          return this.OptionGenerator(this.list, 'xqxf').sort(cmp)
+          return this.OptionGenerator(this.list, 'xf').sort(cmp)
         }
       },
       methods: {
         b(s) {
-          return '<p>' + s.split('\n').join('<br>') + '</p>'
+          return s.split(';').join('<br>')
         },
         OptionGenerator(data, attr) {
-          pool = new Set()
+          filtered_data = new Set()
           data.forEach(function (item, index) {
-            pool.add(item[attr])
+            filtered_data.add(item[attr])
           })
-          return [...pool]
+          return [...filtered_data]
         },
         search() {
           window.alert('input search')
         }
       },
       created() {
-        // this.list = this.pool.filter(function (lesson) {
+        fetch('lessionData_2019-2020_2.json')
+        .then((res)=>res.json())
+        .then((data)=>{
+          this.raw_data=data;
+        })
+        // this.list = this.filtered_data.filter(function (lesson) {
         //   return lesson.nj == '0'
         // })
       }
@@ -275,17 +344,19 @@
   </script>
   
   <!-- Bootstrap Dependency -->
-  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdn.bootcss.com/popper.js/1.14.6/umd/popper.min.js"></script>
-  <script src="https://cdn.bootcss.com/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/popper.js/1.14.6/umd/popper.min.js"></script>
+  <script src="//cdn.bootcss.com/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
   <!-- Bootstrap Dependency End-->
+
   <script>
     $('document').ready(function () {
       $("#keysearch").click(function () {
         var type = getLessonFilter('keytype').value
         var word = getLessonFilter('keyword').value
+        console.log(type,word)
         if (word) {
-          app.pool = data.filter(function (lesson) {
+          app.filtered_data = app.raw_data.filter(function (lesson) {
             if (lesson[type]) {
               return lesson[type].search(word) > -1
             } else {
@@ -293,18 +364,16 @@
             }
           })
         } else {
-          app.pool = data
+          app.filtered_data = app.raw_data
         }
-        app.list = app.pool
+        app.list = app.filtered_data
       })
 
       $(".form-check-input").change(function () {
         var nj = check('nj')
-        var yx = check('yxmc')
+        var yx = check('kkxy')
 
-        // console.log(nj, yx)
-
-        app.list = app.pool.filter(function (lesson) {
+        app.list = app.filtered_data.filter(function (lesson) {
           var cond1 = nj.find(function (x) {
             return x == lesson.nj
           })
@@ -333,9 +402,11 @@
       })
     })
   </script>
+
   <script>
-    document.getElementById("app").style.visibility = "visible";
-  </script> 
+    $("#app").show();
+  </script>
+
 </body>
 
 </html>

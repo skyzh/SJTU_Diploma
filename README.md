@@ -1,3 +1,3 @@
 # 交大学科交流群列表
 
-http://luminousxlb.gitee.io/sjtu_diploma/
+https://skyzh.github.io/SJTU_Diploma
