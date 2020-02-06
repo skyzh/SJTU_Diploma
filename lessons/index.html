@@ -10,26 +10,7 @@
   <link rel="stylesheet" href="//cdn.bootcss.com/twitter-bootstrap/4.2.1/css/bootstrap.min.css">
 
   <title>学期开课表</title>
-  <script>
-    function cmp(a, b) {
-      return a - b
-    }
 
-    function getLessonFilter(attr) {
-      return document.forms.LessonFilter[attr]
-    }
-
-    function check(attr) {
-      var selected = []
-      getLessonFilter(attr).forEach(function (item, index) {
-        // console.log(item.value, item.checked)
-        if (item.checked) {
-          selected.push(item.value)
-        }
-      })
-      return selected
-    }
-  </script>
 
   <style>
     .header {
@@ -61,7 +42,7 @@
     }
 
     /************以下为表格样式************/
-    .tablefieldDict {
+    .table-header {
       text-align: center;
     }
 
@@ -90,6 +71,7 @@
 
     .sjms {
       min-width: 20em;
+      text-align: center;
     }
 
     .bz {
@@ -132,65 +114,69 @@
     <div class="container">
       <form name="LessonFilter">
         <h4>当前学期：2019-2020学年春季学期</h4>
-        <div class="form-group">
+        <div class="form-group row">
           <div id="searchBox" class="input-group mb-3">
             <div class="input-group-prepend">
-              <select class="custom-select" id="keyword-type" name="keytype">
-                <option value="kcmc" selected>课程名称</option>
+              <select class="custom-select" id="keyword-type" v-model="formData.raw_keyword.keywordType">
+                <option value="kcmc">课程名称</option>
                 <option value="kch">课号</option>
                 <option value="jxzc">任课教师</option>
               </select>
             </div>
-            <input type="text" id="keyword" name="keyword" class="form-control">
+            <input type="text" class="form-control" @keydown.enter="updateKeyword" v-model="formData.raw_keyword.keyword">
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" id="keysearch" type="button">搜索</button>
+              <button class="btn btn-outline-secondary" id="keysearch" type="button" @click="updateKeyword">搜索</button>
             </div>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">年级</label>
-          <div class="col-sm-10">
-            <span class="form-check form-check-inline" v-for="nj in NJlst">
-              <input class="form-check-input" name="nj" type="checkbox" :id="nj" :value="nj">
-              <label class="form-check-label" :for="nj">{{ nj }}</label>
-            </span>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">开课院系</label>
-          <div class="col-sm-10">
-            <div class="form-check form-check-inline" v-for="yx in YXlst">
-              <input class="form-check-input" name="kkxy" type="checkbox" :id="yx" :value="yx">
-              <label class="form-check-label" :for="yx">{{ yx }}</label>
+          <label class="col-md-2 col-sm-12 col-form-label">年级</label>
+          <div class="col-md-10 col-sm-12 container">
+            <div class="row">
+              <span class="form-check col-lg-4 col-md-6 col-sm-12" v-for="nj in njOptionList">
+                <input class="form-check-input" type="checkbox" :id="nj" :value="nj" v-model="formData.checkedNj">
+                <label class="form-check-label" :for="nj">{{ nj }}</label>
+              </span>
             </div>
           </div>
         </div>
-        <div class="form-group row" style="display: none;">
+        <div class="form-group row">
+          <label class="col-md-2 col-sm-12 col-form-label">开课院系</label>
+          <div class="col-md-10 col-sm-12 container">
+            <div class="row">
+              <div class="form-check col-lg-4 col-md-6 col-sm-12" v-for="yx in yxOptionList">
+                <input class="form-check-input" type="checkbox" :id="yx" :value="yx" v-model="formData.checkedYx">
+                <label class="form-check-label" :for="yx">{{ yx }}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text">行课安排</span>
+              <span class="input-group-text">课程安排</span>
             </div>
-            <input type="text" class="form-control" name="sksj" id="sjmssearch" placeholder="keyword">
+            <input type="text" class="form-control" placeholder="全部时间" v-model="formData.scheduleKey">
           </div>
         </div>
       </form>
     </div>
 
     <div class="table-responsive-md">
-      <table class="table table-hover">
+      <table class="table">
         <thead>
           <tr>
             <th scope="col" class="table-header" class="tablefieldDict" v-for="header in tableHeader">{{ header }}</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="lesson in list">
+          <tr v-for="lesson in data_filtered">
             <th class="kcbm" scope="row">{{ lesson.kch }}</th>
             <td class="yxmc">{{ lesson.kkxy }}</td>
-            <td class="xm">{{ lesson.jszc }}</td>
+            <td class="xm" v-html="b(lesson.jszc,',')"></td>
             <td class="kcmc">{{ lesson.kcmc }}</td>
             <td class="xsxf">{{ lesson.rwzxs }} / {{ lesson.xf }}</td>
-            <td class="sjms" v-html="b(lesson.sksj)"></td>
+            <td class="sjms" v-html="b(lesson.sksj,';')"></td>
             <td class="bz">{{ lesson.xkbz }}</td>
             <td class="nj">{{ lesson.nj }}</td>
           </tr>
@@ -236,9 +222,20 @@
     </div>
   </footer>
 
-  <script src="https://cdn.bootcss.com/vue/2.5.22/vue.min.js"></script>
-  <script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-beta.46/polyfill.js"></script>
+  <script src="//cdn.bootcss.com/vue/2.5.22/vue.min.js"></script>
+  <script src="//cdn.bootcss.com/babel-polyfill/7.6.0/polyfill.min.js"></script>
+  
+  <!-- Bootstrap Dependency -->
+  <script src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/popper.js/1.14.6/umd/popper.min.js"></script>
+  <script src="//cdn.bootcss.com/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+  <!-- Bootstrap Dependency End-->
+
   <script>
+    function cmpChs(a, b) {
+      return a.localeCompare(b,'zh-cn')
+    }
+    
     var app = new Vue({
       el: "#app",
       data: {
@@ -273,9 +270,9 @@
           "zjs": "上课教师",
           "zws": "座位数",
           "jxlmc": "教学楼",
-          "jszc": "教师组成",
+          "jszc": "教师组成"
         },
-        tableHeader:[
+        tableHeader: [
           "课号",
           "开课院系",
           "教师姓名",
@@ -285,121 +282,118 @@
           "备注",
           "年级"
         ],
-        raw_data:[],
-        filtered_data: [],
-        list: []
+        dataLoaded: false,
+        underControled: false,
+        data_raw: [],
+        formData: {
+          checkedNj: [],
+          checkedYx: [],
+          scheduleKey: '',
+          raw_keyword: {
+            'keywordType': $('#keyword-type > option').attr('value'),
+            'keyword': '',
+          },
+          keyword: {
+            'keywordType': '',
+            'keyword': '',
+          }
+        }
       },
       computed: {
-        YXlst() {
-          return this.OptionGenerator(this.raw_data, 'kkxy')
+        optionRange() {
+          if(this.formData.raw_keyword['keyword']!=''){
+            return this.data_afterKeyword
+          }
+          else{
+            return this.data_raw
+          }
         },
-        NJlst() {
-          return this.OptionGenerator(this.raw_data, 'nj').sort(cmp)
+        yxOptionList() {
+          return this.optionGenerator(this.optionRange, 'kkxy')
         },
-        XSlst() {
-          return this.OptionGenerator(this.raw_data, 'rwzxs').sort(cmp)
+        njOptionList() {
+          return this.optionGenerator(this.optionRange, 'nj').sort(cmpChs).filter(function(option){
+            return option.indexOf(',') == -1
+            }).sort(cmpChs)
         },
-        XFlst() {
-          return this.OptionGenerator(this.raw_data, 'xf').sort(cmp)
+        data_afterKeyword() {
+          if(!(this.dataLoaded&&this.underControled)) {
+            return []
+          }
+          else {
+            var filtering_data=[]
+            var keyword=this.formData.keyword['keyword']
+            var keywordType=this.formData.keyword['keywordType']
+            
+            if (keyword) {
+              filtering_data = this.data_raw.filter(function (lesson) {
+                if (lesson[keywordType]) {
+                  return lesson[keywordType].search(keyword) > -1
+                } else {
+                  return false
+                }
+              })
+            } else {
+              filtering_data = this.data_raw
+            }
+            return filtering_data
+          }
         },
-        YXopt() {
-          return this.OptionGenerator(this.list, 'kkxy')
-        },
-        NJopt() {
-          return this.OptionGenerator(this.list, 'nj').sort(cmp)
-        },
-        XSopt() {
-          return this.OptionGenerator(this.list, 'rwzxs').sort(cmp)
-        },
-        XFopt() {
-          return this.OptionGenerator(this.list, 'xf').sort(cmp)
+        
+        data_filtered() {
+          var filtering_data = this.data_afterKeyword
+          var checkedNj=this.formData.checkedNj
+          var checkedYx=this.formData.checkedYx
+          var scheduleKey=this.formData.scheduleKey
+          
+          if (checkedNj.length) {
+            filtering_data = filtering_data.filter(function (lesson) {
+              return checkedNj.find(function (x) {
+                return x == lesson.nj
+              })
+            })
+          }
+          if (checkedYx.length) {
+            filtering_data = filtering_data.filter(function (lesson) {
+              return checkedYx.find(function (x) {
+                return x == lesson.kkxy
+              })
+            })
+          }
+          if (scheduleKey) {
+            filtering_data = filtering_data.filter(function (lesson) {
+              return lesson.sksj.search(scheduleKey) > -1
+            })
+          }
+          return filtering_data
         }
       },
       methods: {
-        b(s) {
-          return s.split(';').join('<br>')
+        updateKeyword() {
+          this.underControled=true
+          this.formData.keyword['keywordType']=this.formData.raw_keyword['keywordType']
+          this.formData.keyword['keyword']=this.formData.raw_keyword['keyword']
         },
-        OptionGenerator(data, attr) {
-          filtered_data = new Set()
+        b(s,sep) {
+          return s.split(sep).join('<br>')
+        },
+        optionGenerator(data, attr) {
+          attrVals = new Set()
           data.forEach(function (item, index) {
-            filtered_data.add(item[attr])
+            attrVals.add(item[attr])
           })
-          return [...filtered_data]
-        },
-        search() {
-          window.alert('input search')
+          return [...attrVals]
         }
       },
       created() {
         fetch('lessionData_2019-2020_2.json')
         .then((res)=>res.json())
         .then((data)=>{
-          this.raw_data=data;
+          this.data_raw=data;
+          this.dataLoaded=true;
         })
-        // this.list = this.filtered_data.filter(function (lesson) {
-        //   return lesson.nj == '0'
-        // })
+        
       }
-    })
-  </script>
-  
-  <!-- Bootstrap Dependency -->
-  <script src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-  <script src="//cdn.bootcss.com/popper.js/1.14.6/umd/popper.min.js"></script>
-  <script src="//cdn.bootcss.com/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
-  <!-- Bootstrap Dependency End-->
-
-  <script>
-    $('document').ready(function () {
-      $("#keysearch").click(function () {
-        var type = getLessonFilter('keytype').value
-        var word = getLessonFilter('keyword').value
-        console.log(type,word)
-        if (word) {
-          app.filtered_data = app.raw_data.filter(function (lesson) {
-            if (lesson[type]) {
-              return lesson[type].search(word) > -1
-            } else {
-              return false
-            }
-          })
-        } else {
-          app.filtered_data = app.raw_data
-        }
-        app.list = app.filtered_data
-      })
-
-      $(".form-check-input").change(function () {
-        var nj = check('nj')
-        var yx = check('kkxy')
-
-        app.list = app.filtered_data.filter(function (lesson) {
-          var cond1 = nj.find(function (x) {
-            return x == lesson.nj
-          })
-
-          var cond2 = yx.find(function (x) {
-            return x == lesson.yxmc
-          })
-          // console.log(cond1, cond2)
-          return cond1 != undefined && cond2 != undefined
-        })
-      })
-
-      var history = ''
-
-      $("#sjmssearch").keyup(function () {
-        var sjmskeyword = getLessonFilter("sjms").value
-        // console.log(sjmskeyword.value)
-
-        if (sjmskeyword) {
-          $(".form-check-input").change()
-          app.list = app.list.filter(function (lesson) {
-            // console.log(lesson.sjms.search(sjmskeyword))
-            return lesson.sjms.search(sjmskeyword) > -1
-          })
-        }
-      })
     })
   </script>
 
