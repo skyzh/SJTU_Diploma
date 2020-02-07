@@ -81,6 +81,28 @@
     .nj {
       text-align: center;
     }
+    
+    .item_limit_dropdown {
+      width: 5em;
+      margin-left: 3em;
+    }
+    
+    .pagination {
+      margin-left: 8em;
+    }
+    
+    .page-item.active .page-link {
+      background-color: darkgray !important;
+      border-color: darkgray !important;
+    }
+    .btn-secondary {
+      background-color: darkgray !important;
+      border-color: darkgray !important;
+    }
+    .dropdown-item.active {
+      background-color: darkgray !important;
+      color: white !important;
+    }
   </style>
 
 </head>
@@ -162,7 +184,7 @@
       </form>
     </div>
     
-    <div class="table-responsive-md">
+    <div class="table-responsive-md" v-if="data_paged!=0">
       <table class="table">
         <thead>
           <tr>
@@ -170,7 +192,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="lesson in data_filtered">
+          <tr v-for="lesson in data_paged">
             <th class="kcbm" scope="row">{{ lesson.kch }}</th>
             <td class="yxmc">{{ lesson.kkxy }}</td>
             <td class="xm" v-html="b(lesson.jszc,',')"></td>
@@ -183,25 +205,36 @@
         </tbody>
       </table>
     </div>
-    <div>
+    <div class="d-flex justify-content-center" v-if="pageCount!=0">
       <nav>
-        <ul class="pagination justify-content-center">
-          <li class="page-item" :class="{disabled:pageNow==1}">
-            <a class="page-link" @click="pageNow-=1">
-              <span>上一页</span>
-            </a>
-          </li>
-          <li class="page-item" :class="{active:pageNow==pageNum,disabled:pageNum=='···'}" v-for="pageNum in pageShowRange">
-            <a class="page-link" @click="pageNow=pageNum">
-              <span>{{pageNum}}</span>
-            </a>
-          </li>
-          <li class="page-item" :class="{disabled:pageNow==pageCount}">
-            <a class="page-link" @click="pageNow+=1">
-              <span>下一页</span>
-            </a>
-          </li>
-        </ul>
+        <div class="row">
+          <ul class="pagination">
+            <li class="page-item" :class="{disabled:pageNow==1}">
+              <a class="page-link" @click="pageNow-=1">
+                <span>上一页</span>
+              </a>
+            </li>
+            <li class="page-item" :class="{active:pageNow==pageNum,disabled:pageNum=='···'}" v-for="pageNum in pageShowRange">
+              <a class="page-link" @click="pageNow=pageNum">
+                <span>{{pageNum}}</span>
+              </a>
+            </li>
+            <li class="page-item" :class="{disabled:pageNow==pageCount}">
+              <a class="page-link" @click="pageNow+=1">
+                <span>下一页</span>
+              </a>
+            </li>
+          </ul>
+          
+          <div class="dropdown item_limit_dropdown">
+            <div style="display: inline	;">
+              <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">{{pageMaxItemCount}}</button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" :class="{'active':countNum==pageMaxItemCount}" @click="pageMaxItemCount=countNum" v-for="countNum in pageMaxItemCountList">{{countNum}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
       </nav>
     </div>
   </div>
@@ -321,7 +354,11 @@
             'keyword': '',
           }
         },
-        pageNow: 1
+        pageNow: 1,
+        pageMaxItemCount: 20,
+        pageMaxItemCountList: [
+          1,5,10,20,30,50,80,100,150,200,250,300
+        ]
       },
       computed: {
         optionRange() {
@@ -390,6 +427,10 @@
           }
           return filtering_data
         },
+        data_paged() {
+          var data_offset=this.pageMaxItemCount*(this.pageNow-1)
+          return this.data_filtered.slice(data_offset,this.pageMaxItemCount+data_offset)
+        },
         pageShowRange() {
           //共显示九个项目
           //示例格式：
@@ -423,7 +464,7 @@
             .concat(omittedFlagR?['···',this.pageCount]:[this.pageCount-1,this.pageCount])
         },
         pageCount() {
-          return 15
+          return Math.ceil(this.data_filtered.length/this.pageMaxItemCount)
         }
       },
       methods: {
@@ -450,6 +491,8 @@
           this.data_raw=data;
           this.dataLoaded=true;
         })
+      },
+      watch: {
         
       }
     })
