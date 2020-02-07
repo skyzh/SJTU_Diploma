@@ -164,10 +164,25 @@
               <select class="custom-select" id="keyword-type" v-model="formData.keyword.keywordType">
                 <option value="kcmc">课程名称</option>
                 <option value="kch">课号</option>
-                <option value="jxzc">任课教师</option>
               </select>
             </div>
             <input type="text" class="form-control" v-model="formData.keyword.keyword">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">上课时间</span>
+            </div>
+            <input type="text" class="form-control" placeholder="不限时间" v-model="formData.scheduleKey">
+            <div class="input-group-prepend">
+              <span class="input-group-text">教师</span>
+            </div>
+            <input type="text" class="form-control" placeholder="不限教师" v-model="formData.lecturerKey">
+            <div class="input-group-prepend">
+              <span class="input-group-text">地点</span>
+            </div>
+            <input type="text" class="form-control" placeholder="不限地点" v-model="formData.placeKey">
           </div>
         </div>
         <div class="form-group row">
@@ -182,6 +197,17 @@
           </div>
         </div>
         <div class="form-group row">
+          <label class="col-md-2 col-sm-12 col-form-label">课程类型</label>
+          <div class="col-md-10 col-sm-12 container">
+            <div class="row">
+              <span class="form-check col-lg-4 col-md-6 col-sm-12" v-for="lx in lxOptionList">
+                <input class="form-check-input" name='lx' type="checkbox" :id="lx" :value="lx" v-model="formData.checkedLx">
+                <label class="form-check-label" :for="lx">{{ lx }}</label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
           <label class="col-md-2 col-sm-12 col-form-label">开课院系</label>
           <div class="col-md-10 col-sm-12 container">
             <div class="row">
@@ -190,14 +216,6 @@
                 <label class="form-check-label" :for="yx">{{ yx }}</label>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">上课时间</span>
-            </div>
-            <input type="text" class="form-control" placeholder="全部时间" v-model="formData.scheduleKey">
           </div>
         </div>
       </form>
@@ -366,8 +384,11 @@
         data_raw: [],
         formData: {
           checkedNj: [],
+          checkedLx: [],
           checkedYx: [],
           scheduleKey: '',
+          lecturerKey: '',
+          placeKey: '',
           keyword: {
             'keywordType': $('#keyword-type > option').attr('value'),
             'keyword': '',
@@ -410,6 +431,9 @@
         yxOptionList() {
           return this.optionGenerator(this.optionRange, 'kkxy')
         },
+        lxOptionList() {
+          return this.optionGenerator(this.optionRange, 'kcxzmc')
+        },
         njOptionList() {
           return this.optionGenerator(this.optionRange, 'nj').sort(cmpChs).filter(function(option){
             return option.indexOf(',') == -1
@@ -423,6 +447,9 @@
             var filtering_data=[]
             var keyword=this.formData.keyword['keyword']
             var keywordType=this.formData.keyword['keywordType']
+            var scheduleKey=this.formData.scheduleKey
+            var lecturerKey=this.formData.lecturerKey
+            var placeKey=this.formData.placeKey
             
             if (keyword) {
               filtering_data = this.data_raw.filter(function (lesson) {
@@ -435,14 +462,30 @@
             } else {
               filtering_data = this.data_raw
             }
+            
+            if (scheduleKey) {
+              filtering_data = filtering_data.filter(function (lesson) {
+                return lesson.sksj.search(scheduleKey) > -1
+              })
+            }
+            if (lecturerKey) {
+              filtering_data = filtering_data.filter(function (lesson) {
+                return lesson.jsxx.search(lecturerKey) > -1
+              })
+            }
+            if (placeKey) {
+              filtering_data = filtering_data.filter(function (lesson) {
+                return (lesson.jxdd?lesson.jxdd:'').search(placeKey) > -1
+              })
+            }
             return filtering_data
           }
         },
         data_filtered() {
           var filtering_data = this.data_afterKeyword
           var checkedNj=this.formData.checkedNj
+          var checkedLx=this.formData.checkedLx
           var checkedYx=this.formData.checkedYx
-          var scheduleKey=this.formData.scheduleKey
           
           if (checkedNj.length) {
             filtering_data = filtering_data.filter(function (lesson) {
@@ -451,16 +494,18 @@
               })
             })
           }
+          if (checkedLx.length) {
+            filtering_data = filtering_data.filter(function (lesson) {
+              return checkedLx.find(function (x) {
+                return x == lesson.kcxzmc
+              })
+            })
+          }
           if (checkedYx.length) {
             filtering_data = filtering_data.filter(function (lesson) {
               return checkedYx.find(function (x) {
                 return x == lesson.kkxy
               })
-            })
-          }
-          if (scheduleKey) {
-            filtering_data = filtering_data.filter(function (lesson) {
-              return lesson.sksj.search(scheduleKey) > -1
             })
           }
           return filtering_data
@@ -533,18 +578,35 @@
         },
         updateSrcData() {
           this.dataLoaded=false
-          fetch('lessionData_'+this.selectedYear+'_'+this.selectedSemester+'.json')
-          .then((res)=>res.json())
-          .then((data)=>{
-            this.data_raw=data
-            this.dataLoaded=true
+          //先检查数据是否有效
+          var foundFlag=false
+          this.data_index.forEach(x=>{//woc 还有这种语法？？nb！
+            if(this.selectedYear==x.year&&this.selectedSemester==x.semester){
+              foundFlag=true
+            }
           })
+          //再获取数据
+          if(foundFlag){
+            fetch('lessionData_'+this.selectedYear+'_'+this.selectedSemester+'.json')
+            .then((res)=>res.json())
+            .then((data)=>{
+              this.data_raw=data
+              this.dataLoaded=true
+            })
+          }
+          else{
+            this.selectedSemester=this.availableSemester[this.availableSemester.length-1]
+          }
         },
         clearInvalidFormSelections() {
           // v-model双向绑定后，视图上选项消失后数据中仍然存在
           var currentNjSelections= [...$("input[name='nj']")].map(i=>$(i).attr('value'))
           var newCheckNj=this.formData.checkedNj.filter(i=>currentNjSelections.includes(i))
           this.formData.checkedNj=newCheckNj
+          
+          var currentLxSelections= [...$("input[name='lx']")].map(i=>$(i).attr('value'))
+          var newCheckLx=this.formData.checkedLx.filter(i=>currentLxSelections.includes(i))
+          this.formData.checkedLx=newCheckLx
           
           var currentYxSelections= [...$("input[name='yx']")].map(i=>$(i).attr('value'))
           var newCheckYx=this.formData.checkedYx.filter(i=>currentYxSelections.includes(i))
@@ -582,7 +644,6 @@
           console.log(this.pageNow)
           this.pageMaxItemCountBeforeChange=this.pageMaxItemCount
         }
-        
       }
     })
   </script>
