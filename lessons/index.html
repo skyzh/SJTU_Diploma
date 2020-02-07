@@ -135,20 +135,33 @@
   <div class="container" id="app" style="display: none">
     <div class="container">
       <form name="LessonFilter">
-        <h4>当前学期：2019-2020学年春季学期</h4>
+        <h4 class="text-center">
+          <span>当前学期：</span>
+          <span>
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">{{selectedYear}}</button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" :class="{'active':year==selectedYear}" @click="selectedYear=year" v-for="year in availableYear">{{year}}</a>
+            </div>
+          </span>
+          <span>学年</span>
+          <span>
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">{{selectedSemester|semesterCode2name}}</button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" :class="{'active':semester==selectedSemester}" @click="selectedSemester=semester" v-for="semester in availableSemester">{{semester|semesterCode2name}}</a>
+            </div>
+          </span>
+          <span>学期</span>
+        </h4>
         <div class="form-group row">
           <div id="searchBox" class="input-group mb-3">
             <div class="input-group-prepend">
-              <select class="custom-select" id="keyword-type" v-model="formData.raw_keyword.keywordType">
+              <select class="custom-select" id="keyword-type" v-model="formData.keyword.keywordType">
                 <option value="kcmc">课程名称</option>
                 <option value="kch">课号</option>
                 <option value="jxzc">任课教师</option>
               </select>
             </div>
-            <input type="text" class="form-control" @keydown.enter="updateKeyword" v-model="formData.raw_keyword.keyword">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" id="keysearch" type="button" @click="updateKeyword">搜索</button>
-            </div>
+            <input type="text" class="form-control" v-model="formData.keyword.keyword">
           </div>
         </div>
         <div class="form-group row">
@@ -156,7 +169,7 @@
           <div class="col-md-10 col-sm-12 container">
             <div class="row">
               <span class="form-check col-lg-4 col-md-6 col-sm-12" v-for="nj in njOptionList">
-                <input class="form-check-input" type="checkbox" :id="nj" :value="nj" v-model="formData.checkedNj">
+                <input class="form-check-input" name='nj' type="checkbox" :id="nj" :value="nj" v-model="formData.checkedNj">
                 <label class="form-check-label" :for="nj">{{ nj }}</label>
               </span>
             </div>
@@ -167,7 +180,7 @@
           <div class="col-md-10 col-sm-12 container">
             <div class="row">
               <div class="form-check col-lg-4 col-md-6 col-sm-12" v-for="yx in yxOptionList">
-                <input class="form-check-input" type="checkbox" :id="yx" :value="yx" v-model="formData.checkedYx">
+                <input class="form-check-input" name='yx' type="checkbox" :id="yx" :value="yx" v-model="formData.checkedYx">
                 <label class="form-check-label" :for="yx">{{ yx }}</label>
               </div>
             </div>
@@ -227,7 +240,7 @@
           </ul>
           
           <div class="dropdown item_limit_dropdown">
-            <div style="display: inline	;">
+            <div>
               <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">{{pageMaxItemCount}}</button>
               <div class="dropdown-menu">
                 <a class="dropdown-item" :class="{'active':countNum==pageMaxItemCount}" @click="pageMaxItemCount=countNum" v-for="countNum in pageMaxItemCountList">{{countNum}}</a>
@@ -339,30 +352,46 @@
           "年级"
         ],
         dataLoaded: false,
-        underControled: false,
+        selectedYear: '',
+        selectedSemester: '',
+        data_index: [],
         data_raw: [],
         formData: {
           checkedNj: [],
           checkedYx: [],
           scheduleKey: '',
-          raw_keyword: {
-            'keywordType': $('#keyword-type > option').attr('value'),
-            'keyword': '',
-          },
           keyword: {
-            'keywordType': '',
+            'keywordType': $('#keyword-type > option').attr('value'),
             'keyword': '',
           }
         },
         pageNow: 1,
-        pageMaxItemCount: 20,
+        pageMaxItemCount: 3,
         pageMaxItemCountList: [
-          1,5,10,20,30,50,80,100,150,200,250,300
+          1,3,5,10,20,30,50,80,100,150,200,250,300
         ]
       },
       computed: {
+        availableYear() {
+          var yearSet= new Set()
+          this.data_index.forEach(function (item) {
+            yearSet.add(item.year)
+          })
+          return [...yearSet]
+        },
+        availableSemester() {
+          const selectedYear=this.selectedYear
+          var newIndex= this.data_index.filter(function(item){
+            return item.year==selectedYear
+          })
+          var semesterSet= new Set()
+          newIndex.forEach(function (item) {
+            semesterSet.add(item.semester)
+          })
+          return [...semesterSet]
+        },
         optionRange() {
-          if(this.formData.raw_keyword['keyword']!=''){
+          if(this.formData.keyword['keyword']!=''){
             return this.data_afterKeyword
           }
           else{
@@ -378,7 +407,7 @@
             }).sort(cmpChs)
         },
         data_afterKeyword() {
-          if(!(this.dataLoaded&&this.underControled)) {
+          if(!this.dataLoaded) {
             return []
           }
           else {
@@ -467,12 +496,21 @@
           return Math.ceil(this.data_filtered.length/this.pageMaxItemCount)
         }
       },
+      filters: {
+        semesterCode2name(semesterCode) {
+          switch(semesterCode){
+            case '1':
+              return '秋季'
+            case '2':
+              return '春季'
+            case '3':
+              return '夏季'
+            default:
+              return '未知'
+         }
+        }
+      },
       methods: {
-        updateKeyword() {
-          this.underControled=true
-          this.formData.keyword['keywordType']=this.formData.raw_keyword['keywordType']
-          this.formData.keyword['keyword']=this.formData.raw_keyword['keyword']
-        },
         b(s,sep) {
           return s.split(sep).join('<br>')
         },
@@ -482,17 +520,50 @@
             attrVals.add(item[attr])
           })
           return [...attrVals]
+        },
+        updateSrcData() {
+          this.dataLoaded=false
+          fetch('lessionData_'+this.selectedYear+'_'+this.selectedSemester+'.json')
+          .then((res)=>res.json())
+          .then((data)=>{
+            this.data_raw=data
+            this.dataLoaded=true
+          })
+        },
+        clearInvalidFormSelections() {
+          // v-model双向绑定后，视图上选项消失后数据中仍然存在
+          var currentNjSelections= [...$("input[name='nj']")].map(i=>$(i).attr('value'))
+          var newCheckNj=this.formData.checkedNj.filter(i=>currentNjSelections.includes(i))
+          this.formData.checkedNj=newCheckNj
+          
+          var currentYxSelections= [...$("input[name='yx']")].map(i=>$(i).attr('value'))
+          var newCheckYx=this.formData.checkedYx.filter(i=>currentYxSelections.includes(i))
+          this.formData.checkedYx=newCheckYx
+          
         }
       },
       created() {
-        fetch('lessionData_2019-2020_2.json')
+        fetch('lessionData_index.json')
         .then((res)=>res.json())
         .then((data)=>{
-          this.data_raw=data;
-          this.dataLoaded=true;
+          this.data_index=data
+          this.selectedYear=this.data_index[this.data_index.length-1]['year']
+          this.selectedSemester=this.data_index[this.data_index.length-1]['semester']
         })
       },
       watch: {
+        selectedYear() {
+          this.updateSrcData()
+        },
+        selectedSemester() {
+          this.updateSrcData()
+        },
+        'formData.keyword': {
+          handler() {
+            this.clearInvalidFormSelections()
+          },
+          deep: true
+        }
         
       }
     })
