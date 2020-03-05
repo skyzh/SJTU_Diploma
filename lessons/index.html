@@ -639,6 +639,9 @@
         data_raw() {
           this.clearInvalidFormSelections()
         },
+        data_filtered() {
+          this.pageNow=1
+        },
         pageMaxItemCount() {
           this.pageNow=1+Math.floor((this.pageNow-1)*this.pageMaxItemCountBeforeChange/this.pageMaxItemCount)
           console.log(this.pageNow)

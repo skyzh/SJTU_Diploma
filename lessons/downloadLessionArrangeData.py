@@ -9,7 +9,7 @@ cookies = {
 
 # 在此填入学年和学期(1:秋季学期，2:春季学期，3:夏季小学期)
 xuenian = '2019-2020'
-xueqi = 3
+xueqi = 1
 filename = 'lessionData_{}_{}.json'.format(xuenian, xueqi)
 
 # 功能模块：按条件查询上课情况
@@ -17,7 +17,7 @@ requestUrl = 'https://i.sjtu.edu.cn/design/funcData_cxFuncDataList.html?func_wid
 
 
 def getData(xueqi, xuenian, maxDataCount):
-    xueqi_map = {1: '12', 2: '3', 3: '16'}
+    xueqi_map = {1: '3', 2: '12', 3: '16'}
     requestData = {
         'xnm': xuenian[:4],
         'xqm': xueqi_map[xueqi],
