@@ -8,7 +8,7 @@ cookies = {
 }
 
 # 在此填入学年和学期(1:秋季学期，2:春季学期，3:夏季小学期)
-xuenian = '2019-2020'
+xuenian = '2020-2021'
 xueqi = 1
 filename = 'lessionData_{}_{}.json'.format(xuenian, xueqi)
 
